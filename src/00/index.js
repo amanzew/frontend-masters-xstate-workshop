@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate';
+import { createMachine, interpret } from 'xstate';
 
 const elOutput = document.querySelector('#output');
 
@@ -14,6 +14,7 @@ const user = {
   interests: ['piano', 'state machines'],
 };
 
+//section 1
 function transition(state,event){
   switch (state) {
     case 'idle':
@@ -65,6 +66,7 @@ const send=(event)=>{
 output(user);
 window.send=send;
 
+//section 2
 const feedbackMachine=createMachine({
   initial:'question',
   states:{
@@ -89,6 +91,8 @@ const feedbackMachine=createMachine({
     }
   }
 })
+
+//events
 const clickGoodEvent={
   type:'CLICK_GOOD',
   time:Date.now()
@@ -96,5 +100,17 @@ const clickGoodEvent={
 const nextstate=feedbackMachine.transition(
   feedbackMachine.initial,clickGoodEvent
 )
-console.log(nextstate);
+//console.log(nextstate);
+
+//servies
+const feedbackServies=interpret(feedbackMachine);
+
+feedbackServies.onTransition(state=>{
+  console.log(state.value);
+})
+feedbackServies.start();
+feedbackServies.send({
+  type:'CLICK_BAD'
+})
+
 //console.log(transitiona('pending','a'));

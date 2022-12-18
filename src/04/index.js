@@ -5,6 +5,7 @@ const elBox = document.querySelector('#box');
 const setPoint = (context, event) => {
   // Set the data-point attribute of `elBox`
   // ...
+  elBox.dataset.point=event.clientX+","+event.clientY
 };
 
 const machine = createMachine({
@@ -15,6 +16,7 @@ const machine = createMachine({
         mousedown: {
           // Add your action here
           // ...
+          actions:setPoint,
           target: 'dragging',
         },
       },
@@ -27,6 +29,14 @@ const machine = createMachine({
       },
     },
   },
+  
+},{
+  //overriding the action in order to test 
+  actions:{
+    setPoint:()=>{
+      console.log('hello');
+    }
+  }
 });
 
 const service = interpret(machine);
