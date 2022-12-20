@@ -37,6 +37,9 @@ const resetPosition = assign({
   py: 0,
 });
 
+const incrementDrag = assign({
+  drags:(context,event)=>context.drags+=1
+});
 const machine = createMachine({
   initial: 'idle',
   context: {
@@ -55,6 +58,9 @@ const machine = createMachine({
           // Don't select this transition unless
           // there are < 5 drags
           // ...
+          cond:(context,event)=>{
+            return context.drags<5
+          },
           actions: assignPoint,
           target: 'dragging',
         },
@@ -64,6 +70,7 @@ const machine = createMachine({
       // Whenever we enter this state, we want to
       // increment the drags count.
       // ...
+      entry:incrementDrag,
       on: {
         mousemove: {
           actions: assignDelta,

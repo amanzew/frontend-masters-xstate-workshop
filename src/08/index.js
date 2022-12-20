@@ -57,6 +57,12 @@ const dragDropMachine = createMachine({
       },
     },
     dragging: {
+      after:{
+        TIMEOUT:{
+          target:'idle',
+          actions:resetPosition
+        }
+      },
       on: {
         mousemove: {
           actions: assignDelta,
@@ -76,6 +82,10 @@ const dragDropMachine = createMachine({
       // ...
     },
   },
+},{
+  delays:{
+    TIMEOUT:2000
+  }
 });
 
 const service = interpret(dragDropMachine);

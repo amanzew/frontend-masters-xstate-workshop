@@ -44,16 +44,28 @@ const machine = createMachine({
           // ...
           // (no target!)
           actions:assign({
-            dx:(context,event)=>event.clientX-context.px,
-            dy:(context,event)=>event.clientY-context.py,
+            dx: (context, event) => {
+              return event.clientX - context.px;
+            },
+            dy: (context, event) => {
+              return event.clientY - context.py;
+            },
            
           }),
         },
         mouseup: {
           // Assign the position
           actions:assign({
-            x:(context,event)=>context.x + context.dx,
-            y:(context,event)=>context.x + context.dy,
+            x: (context, event) => {
+              return context.x + context.dx;
+            },
+            y: (context, event) => {
+              return context.y + context.dy;
+            },
+            dx: 0,
+            dy: 0,
+            px: 0,
+            py: 0,
           }),
           target: 'idle',
         },
